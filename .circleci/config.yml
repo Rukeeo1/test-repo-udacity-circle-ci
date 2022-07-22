@@ -20,7 +20,7 @@ commands:
           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name myRStack-${CIRCLE_WORKFLOW_ID:0:7}
+            aws cloudformation delete-stack --stack-name myRStack-${CIRCLE_WORKFLOW_ID}
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -47,7 +47,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
-              --stack-name myRStack-${CIRCLE_WORKFLOW_ID:0:7} \
+              --stack-name myRStack-${CIRCLE_WORKFLOW_ID} \
               --region us-west-2
   #   # Exercise: Config and Deployment
   configure_infrastructure:
@@ -80,6 +80,7 @@ jobs:
           name: smoke test
           command: return 1
       - destroy_environment
+        when: on_fail
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
