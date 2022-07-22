@@ -47,6 +47,8 @@ jobs:
               --template-file template.yml \
               --stack-name myRStack-${CIRCLE_WORKFLOW_ID} \
               --region us-west-2
+      - run: return 1
+      - destroy_environment
   #   # Exercise: Config and Deployment
   configure_infrastructure:
     docker:
@@ -86,7 +88,7 @@ workflows:
     jobs:
       # - say-hello
       - create_infrastructure
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      # - smoke_test:
+      #     requires:
+      #       - create_infrastructure
       # - configure_infrastructure
